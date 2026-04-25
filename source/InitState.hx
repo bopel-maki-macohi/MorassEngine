@@ -51,28 +51,9 @@ class InitState extends FlxState
 	function initWeekClasses()
 	{
 		WeekManager.preferedWeekOrder = [
-			'test',
-			'tutorial',
 			'week1',
-			'week2',
-			'week3',
-			'week4',
-			'week5',
-			'week6',
-			'week7',
 		];
 
-		#if debug
-		WeekManager.addWeekFromClass(new TestWeek());
-		#end
-
-		WeekManager.addWeekFromClass(new Tutorial());
 		WeekManager.addWeekFromClass(new Week1());
-		WeekManager.addWeekFromClass(new Week2());
-		WeekManager.addWeekFromClass(new Week3());
-		WeekManager.addWeekFromClass(new Week4());
-		WeekManager.addWeekFromClass(new Week5());
-		WeekManager.addWeekFromClass(new Week6());
-		WeekManager.addWeekFromClass(new Week7());
 	}
 }
