@@ -42,8 +42,6 @@
 
 	<assets path="assets/preload" rename="assets"/>
 
-	
-	
 	<define name="PRELOAD_ALL" />
 	<!-- <define name="PRELOAD_ALL" unless="web" /> -->
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
@@ -71,7 +69,8 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-animate" />
 
-	<haxelib name="hxvlc" />
+	<define name="VIDEOS_ALLOWED" if="desktop" unless="hl" />
+	<haxelib name="hxvlc" if="VIDEOS_ALLOWED" />
 
 	<haxelib name="hscript" />
 
