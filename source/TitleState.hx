@@ -163,9 +163,6 @@ class TitleState extends MusicBeatState
 		else
 			initialized = true;
 
-		if (FlxG.sound.music != null)
-			FlxG.sound.music.onComplete = function() FlxG.switchState(() -> new VideoState());
-
 		startedIntro = true;
 	}
 

@@ -118,7 +118,7 @@
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
 	
-	<haxedef name="CAN_OPEN_LINKS" unless="switch"/>
+	<!-- <haxedef name="CAN_OPEN_LINKS" unless="switch"/> -->
 	<haxedef name="CAN_CHEAT" if="switch debug"/>
 	
 	<!-- <haxedef name="CLEAR_INPUT_SAVE"/> -->

@@ -1785,13 +1785,7 @@ class PlayState extends MusicBeatState
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
 
-				switch (PlayState.storyWeek)
-				{
-					case 'week7':
-						FlxG.switchState(() -> new VideoState());
-					default:
 						FlxG.switchState(() -> new StoryMenuState());
-				}
 
 				// if ()
 				if (SONG.validScore)

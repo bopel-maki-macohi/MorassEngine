@@ -21,9 +21,6 @@ class InitState extends FlxState
 		PlayerSettings.init();
 		Highscore.load();
 
-		if (FlxG.save.data.seenVideo != null)
-			VideoState.seenVideo = FlxG.save.data.seenVideo;
-
 		initDiscordRPC();
 
 		initWeekClasses();
