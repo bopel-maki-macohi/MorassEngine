@@ -53,6 +53,10 @@ class InitState extends FlxState
 
 	function initWeekClasses()
 	{
+		#if debug
+		WeekManager.addWeekFromClass(new TestWeek());
+		#end
+
 		WeekManager.addWeekFromClass(new Tutorial());
 		WeekManager.addWeekFromClass(new Week1());
 		WeekManager.addWeekFromClass(new Week2());

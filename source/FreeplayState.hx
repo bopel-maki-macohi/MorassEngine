@@ -1,5 +1,6 @@
 package;
 
+import weeks.WeekManager;
 #if discord_rpc
 import Discord.DiscordClient;
 #end
@@ -54,27 +55,19 @@ class FreeplayState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		var isDebug:Bool = false;
-
-		#if debug
-		isDebug = true;
-		addSong('Test', 1, 'bf-pixel');
-		#end
-
 		if (FlxG.sound.music != null)
 		{
 			if (!FlxG.sound.music.playing)
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		}
 
-		addWeek(['Tutorial'], 0, ['gf']);
-		addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
-		addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky', 'spooky', 'monster']);
-		addWeek(['Pico', 'Philly', 'Blammed'], 3, ['pico']);
-		addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['mom']);
-		addWeek(['Cocoa', 'Eggnog', 'Winter-Horrorland'], 5, ['parents-christmas', 'parents-christmas', 'monster-christmas']);
-		addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit']);
-		addWeek(['Ugh', 'Guns', 'Stress'], 7, ['tankman']);
+		var weekNum:Int = 0;
+		for (week in WeekManager.weekClasses)
+		{
+			addWeek([for (songID => song in week.songs) songID], weekNum, week.freeplayCharacters ?? ['face']);
+
+			weekNum++;
+		}
 
 		// LOAD MUSIC
 
@@ -168,7 +161,7 @@ class FreeplayState extends MusicBeatState
 		{
 			addSong(song, weekNum, songCharacters[num]);
 
-			if (songCharacters.length != 1)
+			if (num + 1 < songCharacters.length - 1)
 				num++;
 		}
 	}

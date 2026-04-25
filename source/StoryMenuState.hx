@@ -57,7 +57,8 @@ class StoryMenuState extends MusicBeatState
 	{
 		for (week in WeekManager.weekClasses)
 		{
-			weekData.push([for (songID => song in week.songs) songID]);
+			if (!week.freeplayOnly)
+				weekData.push([for (songID => song in week.songs) songID]);
 		}
 
 		transIn = FlxTransitionableState.defaultTransIn;

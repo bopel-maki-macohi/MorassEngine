@@ -11,5 +11,7 @@ class Week5 extends WeekClass
 			'eggnog' => null,
 			'winter-horrorland' => new WinterHorrorland(),
 		]);
+
+		freeplayCharacters = ['parents-christmas', 'parents-christmas', 'monster-christmas'];
 	}
 }

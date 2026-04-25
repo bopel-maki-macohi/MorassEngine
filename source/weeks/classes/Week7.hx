@@ -11,5 +11,7 @@ class Week7 extends WeekClass
 			'guns' => new Week7SongClass('guns'),
 			'stress' => new Week7SongClass('stress'),
 		]);
+
+		freeplayCharacters = ['tankman'];
 	}
 }

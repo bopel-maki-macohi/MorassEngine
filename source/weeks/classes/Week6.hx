@@ -11,5 +11,7 @@ class Week6 extends WeekClass
 			'roses' => new Week6SongClass('roses'),
 			'thorns' => new Week6SongClass('thorns'),
 		]);
+
+		freeplayCharacters = ['senpai', 'senpai', 'spirit'];
 	}
 }
