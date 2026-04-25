@@ -1,62 +1,146 @@
 package;
 
-import flixel.FlxBasic;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import flixel.util.FlxColor;
 import flixel.FlxG;
+import flixel.util.FlxSignal;
+import flixel.FlxBasic;
+import flixel.group.FlxSpriteGroup;
+import hxvlc.flixel.FlxVideoSprite;
 import flixel.FlxSprite;
-import openfl.events.NetStatusEvent;
-import openfl.media.Video;
-import openfl.net.NetConnection;
-import openfl.net.NetStream;
+import flixel.FlxBasic;
 
-class FlxVideo extends FlxBasic
+class FlxVideo extends FlxSpriteGroup
 {
-	var video:Video;
-	var netStream:NetStream;
+	public var blackScreen:FlxSprite;
 
-	public var finishCallback:Void->Void;
+	public var vid:FlxVideoSprite;
 
-	/**
-	 * Doesn't actually interact with Flixel shit, only just a pleasant to use class    
-	 */
-	public function new(vidSrc:String)
+	public var finishCallback:FlxSignal = new FlxSignal();
+
+	override public function new()
 	{
 		super();
 
-		video = new Video();
-		video.x = 0;
-		video.y = 0;
+		blackScreen = new FlxSprite(-200, -200).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+		blackScreen.scrollFactor.set();
 
-		FlxG.addChildBelowMouse(video);
+		vid = new FlxVideoSprite(0, 0);
 
-		var netConnection = new NetConnection();
-		netConnection.connect(null);
+		vid.active = false;
 
-		netStream = new NetStream(netConnection);
-		netStream.client = {onMetaData: client_onMetaData};
-		netConnection.addEventListener(NetStatusEvent.NET_STATUS, netConnection_onNetStatus);
-		netStream.play(Paths.file(vidSrc));
+		vid.bitmap.onEndReached.add(finishVideo.bind(0.5));
+
+		vid.bitmap.onFormatSetup.add(function():Void {
+			if (vid.bitmap != null && vid.bitmap.bitmapData != null)
+			{
+				final scale:Float = Math.min(FlxG.width / vid.bitmap.bitmapData.width, FlxG.height / vid.bitmap.bitmapData.height);
+
+				vid.setGraphicSize(vid.bitmap.bitmapData.width * scale, vid.bitmap.bitmapData.height * scale);
+				vid.updateHitbox();
+				vid.screenCenter();
+			}
+		});
+
+		vid.bitmap.onEncounteredError.add(function(msg:String):Void {
+			trace('Video error: $msg');
+			finishVideo(0.5);
+		});
 	}
 
-	public function finishVideo():Void
+	public function play(cutscene:String)
 	{
-		netStream.dispose();
-		FlxG.removeChild(video);
+		FlxTween.cancelTweensOf(blackScreen);
+		blackScreen.alpha = 1;
+		if (!members.contains(blackScreen)) add(blackScreen);
 
-		if (finishCallback != null)
-			finishCallback();
+		if (vid != null)
+		{
+			if (!members.contains(vid)) add(vid);
+
+			final fileOptions:Array<String> = [];
+
+			vid.load(cutscene, fileOptions);
+			vid.play();
+			vid.screenCenter();
+			// onVideoStarted.dispatch();
+		}
+		else
+		{
+			trace('ALERT: Video is null! Could not play cutscene!');
+			finishVideo(0.5);
+		}
 	}
 
-	public function client_onMetaData(metaData:Dynamic)
+	public function finishVideo(?transitionTime:Float = 0.5)
 	{
-		video.attachNetStream(netStream);
+		if (vid != null)
+		{
+			vid.stop();
+			if (members.contains(vid)) remove(vid);
+			vid.destroy();
+		}
+		vid = null;
 
-		video.width = FlxG.width;
-		video.height = FlxG.height;
+		FlxTween.tween(blackScreen, {alpha: 0}, transitionTime,
+			{
+				onComplete: t -> {
+					if (members.contains(blackScreen)) remove(blackScreen);
+
+					if (finishCallback != null) finishCallback.dispatch();
+				}
+			});
 	}
 
-	private function netConnection_onNetStatus(event:NetStatusEvent):Void
+	public function restartVideo(resume:Bool = true):Void
 	{
-		if (event.info.code == 'NetStream.Play.Complete')
-			finishVideo();
+		if (vid == null) return;
+
+		// Seek to the start of the video.
+		vid.bitmap.time = 0;
+		if (resume)
+		{
+			// Resume the video if it was paused.
+			vid.resume();
+		}
+
+		// onVideoRestarted.dispatch();
+	}
+
+	public function pauseVideo():Void
+	{
+		if (vid == null) return;
+
+		vid.pause();
+
+		// onVideoPaused.dispatch();
+	}
+
+	public function hideVideo():Void
+	{
+		blackScreen.visible = false;
+
+		if (vid == null) return;
+
+		vid.visible = false;
+	}
+
+	public function showVideo():Void
+	{
+		blackScreen.visible = true;
+
+		if (vid == null) return;
+
+		vid.visible = true;
+	}
+
+	public function resumeVideo():Void
+	{
+		if (vid == null) return;
+
+		vid.resume();
+
+		// onVideoResumed.dispatch();
 	}
 }

@@ -20,10 +20,11 @@ class VideoState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		video = new FlxVideo('music/kickstarterTrailer.mp4');
+		video = new FlxVideo();
+		video.play(Paths.file('music/kickstarterTrailer.mp4'));
 		add(video);
 
-		video.finishCallback = finishVid;
+		video.finishCallback.add(finishVid);
 	}
 
 	override function update(elapsed:Float)
