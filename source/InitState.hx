@@ -1,7 +1,4 @@
-import songs.SongClass;
-import weeks.WeekClass;
-import songs.SongManager;
-import songs.classes.*;
+import weeks.classes.*;
 import weeks.WeekManager;
 import ui.PreferencesMenu;
 import flixel.FlxG;
@@ -56,32 +53,13 @@ class InitState extends FlxState
 
 	function initWeekClasses()
 	{
-		var weeks:Map<String, Map<String, SongClass>> = [
-			'tutorial' => ['tutorial' => null,],
-			'week1' => ['bopeebo' => new Bopeebo(), 'fresh' => new Fresh(), 'dadbattle' => null,],
-			'week2' => ['spookeez' => null, 'south' => null, 'monster' => null,],
-			'week3' => ['pico' => null, 'philly' => null, 'blammed' => null,],
-			'week4' => ['satin-panties' => null, 'high' => null, 'milf' => new MILF(),],
-			'week5' => [
-				'cocoa' => null,
-				'eggnog' => null,
-				'winter-horrorland' => new WinterHorrorland(),
-			],
-			'week6' => [
-				'senpai' => new Week6SongClass('senpai'),
-				'roses' => new Week6SongClass('roses'),
-				'thorns' => new Week6SongClass('thorns'),
-			],
-			'week7' => [
-				'ugh' => new Week7SongClass('ugh'),
-				'guns' => new Week7SongClass('guns'),
-				'stress' => new Week7SongClass('stress'),
-			],
-		];
-
-		for (weekName => weekSongs in weeks)
-		{
-			WeekManager.addWeekFromClass(new WeekClass(weekName, weekSongs));
-		}
+		WeekManager.addWeekFromClass(new Tutorial());
+		WeekManager.addWeekFromClass(new Week1());
+		WeekManager.addWeekFromClass(new Week2());
+		WeekManager.addWeekFromClass(new Week3());
+		WeekManager.addWeekFromClass(new Week4());
+		WeekManager.addWeekFromClass(new Week5());
+		WeekManager.addWeekFromClass(new Week6());
+		WeekManager.addWeekFromClass(new Week7());
 	}
 }
