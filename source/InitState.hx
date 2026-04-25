@@ -27,8 +27,6 @@ class InitState extends FlxState
 
 		#if FREEPLAY
 		FlxG.switchState(() -> new FreeplayState());
-		#elseif ANIMATE
-		FlxG.switchState(() -> new CutsceneAnimTestState());
 		#elseif CHARTING
 		FlxG.switchState(() -> new ChartingState());
 		#else
