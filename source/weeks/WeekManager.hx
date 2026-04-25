@@ -2,7 +2,7 @@ package weeks;
 
 class WeekManager
 {
-	static var weekClasses:Map<String, WeekClass> = [];
+	public static var weekClasses:Map<String, WeekClass> = [];
 
 	public static function addWeek(week:String, weekClass:WeekClass)
 	{
