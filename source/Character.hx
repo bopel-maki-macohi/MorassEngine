@@ -152,26 +152,26 @@ class Character extends FlxSprite
 	{
 		if (isPlayer)
 		{
-			if (animation.curAnim.name.startsWith('sing'))
+			if (animation.name.startsWith('sing'))
 			{
 				holdTimer += elapsed;
 			}
 			else
 				holdTimer = 0;
 
-			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
+			if (animation.name.endsWith('miss') && animation.finished && !debugMode)
 			{
 				playAnim('idle', true, false, 10);
 			}
 
-			if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished && startedDeath)
+			if (animation.name == 'firstDeath' && animation.finished && startedDeath)
 			{
 				playAnim('deathLoop');
 			}
 		}
 		else
 		{
-			if (animation.curAnim.name.startsWith('sing'))
+			if (animation.name.startsWith('sing'))
 			{
 				holdTimer += elapsed;
 			}
@@ -190,14 +190,14 @@ class Character extends FlxSprite
 		if (curCharacter.endsWith('-car'))
 		{
 			// looping hair anims after idle finished
-			if (!animation.curAnim.name.startsWith('sing') && animation.curAnim.finished)
+			if (!animation.name.startsWith('sing') && animation.finished)
 				playAnim('idleHair');
 		}
 
 		switch (curCharacter)
 		{
 			case 'gf':
-				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
+				if (animation.name == 'hairFall' && animation.finished)
 					playAnim('danceRight');
 			case "pico-speaker":
 				// for pico??
@@ -219,9 +219,9 @@ class Character extends FlxSprite
 					}
 				}
 
-				if (animation.curAnim.finished)
+				if (animation.finished)
 				{
-					playAnim(animation.curAnim.name, false, false, animation.curAnim.numFrames - 3);
+					playAnim(animation.name, false, false, animation.numFrames - 3);
 				}
 		}
 
@@ -240,7 +240,7 @@ class Character extends FlxSprite
 			switch (curCharacter)
 			{
 				case 'gf' | 'gf-christmas' | 'gf-car' | 'gf-pixel' | 'gf-tankmen':
-					if (!animation.curAnim.name.startsWith('hair'))
+					if (!animation.name.startsWith('hair'))
 					{
 						danced = !danced;
 
@@ -255,7 +255,7 @@ class Character extends FlxSprite
 					// playAnim('shoot' + FlxG.random.int(1, 4), true);
 
 				case 'tankman':
-					if (!animation.curAnim.name.endsWith('DOWN-alt'))
+					if (!animation.name.endsWith('DOWN-alt'))
 						playAnim('idle');
 
 				case 'spooky':
