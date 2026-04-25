@@ -71,7 +71,7 @@ class TitleState extends MusicBeatState
 
 		super.create();
 
-		FlxG.save.bind('funkin', 'ninjamuffin99');
+		FlxG.save.bind('Morass', 'Maki');
 		PreferencesMenu.initPrefs();
 		PlayerSettings.init();
 		Highscore.load();
