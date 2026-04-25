@@ -60,7 +60,7 @@ class Highscore
 		var daSong:String = song;
 
 		// Difficulty Array Diff
-		var dad = CoolUtil.difficultyArray[diff].toUpperCase();
+		var dad = CoolUtil.difficultyArray[diff]?.toUpperCase() ?? 'NORMAL';
 
 		if (dad != 'NORMAL')
 			daSong += '-${dad.toLowerCase()}';

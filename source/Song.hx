@@ -43,15 +43,24 @@ class Song
 
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
 	{
-		var rawJson = Assets.getText(Paths.chart(folder, jsonInput)).trim();
-
-		while (!rawJson.endsWith("}"))
+		try
 		{
-			rawJson = rawJson.substr(0, rawJson.length - 1);
-			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
+			var rawJson = Assets.getText(Paths.chart(folder, jsonInput)).trim();
+
+			while (!rawJson.endsWith("}"))
+			{
+				rawJson = rawJson.substr(0, rawJson.length - 1);
+				// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
+			}
+
+			return parseJSONshit(rawJson);
+		}
+		catch (e)
+		{
+			trace(e);
 		}
 
-		return parseJSONshit(rawJson);
+		return null;
 	}
 
 	public static function parseJSONshit(rawJson:String):SwagSong

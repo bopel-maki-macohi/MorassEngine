@@ -113,7 +113,7 @@ class ChartingState extends MusicBeatState
 		else
 		{
 			_song = {
-				song: 'Test',
+				song: 'Jumm',
 				notes: [],
 				bpm: 150,
 				needsVoices: true,
@@ -161,7 +161,6 @@ class ChartingState extends MusicBeatState
 		UI_box.x = FlxG.width / 2;
 		UI_box.y = 20;
 		add(UI_box);
-		trace(UI_box.numTabs);
 
 		addSongUI();
 		addSectionUI();
