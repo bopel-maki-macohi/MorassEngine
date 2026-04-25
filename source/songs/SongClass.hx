@@ -4,6 +4,8 @@ class SongClass
 {
 	public var song:String;
 
+	public var difficulties:Array<String> = ['easy', 'normal', 'hard'];
+
 	public function new(song:String)
 	{
 		this.song = song;
