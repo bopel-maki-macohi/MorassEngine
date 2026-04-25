@@ -50,8 +50,6 @@ class StoryMenuState extends MusicBeatState
 		var weekClasses:Array<WeekClass> = [for (weekClass in WeekManager.weekClasses) weekClass];
 		weekClasses.sort(WeekManager.sortByOrderPreference);
 
-		trace([for (weekClass in weekClasses) weekClass.week]);
-
 		for (week in weekClasses)
 		{
 			if (!week.freeplayOnly)
