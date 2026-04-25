@@ -1,5 +1,6 @@
 package;
 
+import Song.SwagSong;
 import flixel.FlxG;
 
 class Highscore
@@ -9,7 +10,6 @@ class Highscore
 	#else
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	#end
-
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
 	{
@@ -48,7 +48,6 @@ class Highscore
 		 * I moved the compiler flag here, rather than using it everywhere else.
 		 */
 		#if !switch
-		
 		// Reminder that I don't need to format this song, it should come formatted!
 		songScores.set(formattedSong, score);
 		FlxG.save.data.songScores = songScores;
@@ -60,12 +59,40 @@ class Highscore
 	{
 		var daSong:String = song;
 
-		if (diff == 0)
-			daSong += '-easy';
-		else if (diff == 2)
-			daSong += '-hard';
+		// Difficulty Array Diff
+		var dad = CoolUtil.difficultyArray[diff].toUpperCase();
+
+		if (dad != 'NORMAL')
+			daSong += '-${dad.toLowerCase()}';
 
 		return daSong;
+	}
+
+	public static function calcSongDifficulties(song:String)
+	{
+		var difficulties = [];
+
+		song = song.toLowerCase();
+
+		for (i in 0...5)
+		{
+			var songJson:SwagSong = Song.loadFromJson(formatSong(song, i), song);
+
+			if (songJson != null)
+				difficulties.push(i);
+		}
+
+		return difficulties;
+	}
+
+	public static function difficultiesStrArray(song:String)
+	{
+		var diffs = [];
+
+		for (d in Highscore.calcSongDifficulties(song))
+			diffs.push(CoolUtil.difficultyArray[d]);
+
+		return diffs;
 	}
 
 	public static function getScore(song:String, diff:Int):Int
@@ -76,12 +103,12 @@ class Highscore
 		return songScores.get(formatSong(song, diff));
 	}
 
-	public static function getWeekScore(week:Int, diff:Int):Int
+	public static function getWeekScore(week:String, diff:Int):Int
 	{
-		if (!songScores.exists(formatSong('week' + week, diff)))
-			setScore(formatSong('week' + week, diff), 0);
+		if (!songScores.exists(formatSong(week, diff)))
+			setScore(formatSong(week, diff), 0);
 
-		return songScores.get(formatSong('week' + week, diff));
+		return songScores.get(formatSong(week, diff));
 	}
 
 	public static function load():Void
