@@ -39,28 +39,14 @@
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 
 	<classpath name="source" />
-
+	<assets path="assets" />
 	<assets path="assets/preload" rename="assets"/>
+		
+	<assets path='art/readme.txt' rename='do NOT readme.txt' />
+	<assets path="CHANGELOG.md" rename='changelog.txt'/>
+	<assets path="assets/fonts" embed='true'/>
 
 	<define name="PRELOAD_ALL" />
-	<!-- <define name="PRELOAD_ALL" unless="web" /> -->
-	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
-	
-	<library name="songs"    preload="true" />
-	<library name="shared"   preload="true" />
-		
-	<library name="week1"    preload="true" />
-	
-	<assets path="assets/songs"    library="songs"/>
-	<assets path="assets/shared"   library="shared"/>
-
-	<assets path="assets/weeks/week1"    library="week1"/>
-	
-	<assets path='art/readme.txt' rename='do NOT readme.txt' />
-	
-	<assets path="CHANGELOG.md" rename='changelog.txt'/>
-
-	<assets path="assets/fonts" embed='true'/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

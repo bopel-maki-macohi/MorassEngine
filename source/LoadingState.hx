@@ -60,7 +60,6 @@ class LoadingState extends MusicBeatState
 			if (PlayState.SONG.needsVoices)
 				checkLoadSong(getVocalPath());
 			
-			checkLibrary("shared");
 			checkLibrary(PlayState.storyWeek);
 
 			var fadeTime = 0.5;
@@ -179,8 +178,7 @@ class LoadingState extends MusicBeatState
 
 		#if NO_PRELOAD_ALL
 		var loaded = isSoundLoaded(getSongPath())
-			&& (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath()))
-			&& isLibraryLoaded("shared");
+			&& (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath()));
 
 		if (!loaded)
 			return new LoadingState(target, stopMusic);

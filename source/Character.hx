@@ -93,10 +93,6 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				flipX = true;
-
-				loadOffsetFile(curCharacter);
-
 		}
 
 		dance();

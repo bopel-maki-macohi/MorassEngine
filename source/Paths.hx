@@ -26,10 +26,6 @@ class Paths
 			var levelPath = getLibraryPathForce(file, currentLevel);
 			if (OpenFlAssets.exists(levelPath, type))
 				return levelPath;
-
-			levelPath = getLibraryPathForce(file, "shared");
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
 		}
 
 		return getPreloadPath(file);
@@ -42,7 +38,7 @@ class Paths
 
 	inline static function getLibraryPathForce(file:String, library:String)
 	{
-		return '$library:assets/$library/$file';
+		return 'assets/$library/$file';
 	}
 
 	inline static function getPreloadPath(file:String)
@@ -92,7 +88,7 @@ class Paths
 
 	inline static public function chart(song:String, formattedSong:String)
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/${formattedSong.toLowerCase()}.json';
+		return 'assets/songs/${song.toLowerCase()}/${formattedSong.toLowerCase()}.json';
 	}
 
 	static public function songFile(file:String, song:String, ?difficulty:Int)
@@ -101,7 +97,7 @@ class Paths
 
 		// if (difficulty > 2) songSuffix = '-erect';
 
-		return 'songs:assets/songs/${song.toLowerCase()}$songSuffix/$file.$SOUND_EXT';
+		return 'assets/songs/${song.toLowerCase()}$songSuffix/$file.$SOUND_EXT';
 	}
 
 	inline static public function voices(song:String, ?difficulty:Int)
