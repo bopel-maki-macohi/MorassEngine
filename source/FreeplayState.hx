@@ -1,5 +1,6 @@
 package;
 
+import weeks.WeekClass;
 import weeks.WeekManager;
 #if discord_rpc
 import Discord.DiscordClient;
@@ -61,8 +62,11 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		}
 
+		var weekClasses:Array<WeekClass> = [for (weekClass in WeekManager.weekClasses) weekClass];
+		weekClasses.sort(WeekManager.sortByOrderPreference);
+
 		var weekNum:Int = 0;
-		for (week in WeekManager.weekClasses)
+		for (week in weekClasses)
 		{
 			addWeek([for (songID => song in week.songs) songID], weekNum, week.week, week.freeplayCharacters ?? ['face']);
 

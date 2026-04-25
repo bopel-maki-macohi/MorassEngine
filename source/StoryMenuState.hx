@@ -1,5 +1,6 @@
 package;
 
+import weeks.WeekClass;
 import weeks.WeekManager;
 #if discord_rpc
 import Discord.DiscordClient;
@@ -46,7 +47,12 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
-		for (week in WeekManager.weekClasses)
+		var weekClasses:Array<WeekClass> = [for (weekClass in WeekManager.weekClasses) weekClass];
+		weekClasses.sort(WeekManager.sortByOrderPreference);
+
+		trace([for (weekClass in weekClasses) weekClass.week]);
+
+		for (week in weekClasses)
 		{
 			if (!week.freeplayOnly)
 			{
