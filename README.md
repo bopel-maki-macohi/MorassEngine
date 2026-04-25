@@ -17,6 +17,5 @@ Friday Night Funkin for those who aren't big fans of all the softcoding features
      - Windows 10/11 SDK
    - Mac: [`lime setup mac` Documentation](https://lime.openfl.org/docs/advanced-setup/macos/)
    - Linux: [`lime setup linux` Documentation](https://lime.openfl.org/docs/advanced-setup/linux/)
-   - HTML5: Compiles without any extra setup
 
 Now do `lime test <ur platform>` and you are good.
