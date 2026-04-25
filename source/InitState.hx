@@ -1,6 +1,9 @@
-import ui.PreferencesMenu;
-import songs.classes.*;
+import songs.SongClass;
+import weeks.WeekClass;
 import songs.SongManager;
+import songs.classes.*;
+import weeks.WeekManager;
+import ui.PreferencesMenu;
 import flixel.FlxG;
 import flixel.FlxState;
 
@@ -42,7 +45,7 @@ class InitState extends FlxState
 
 		initDiscordRPC();
 
-		initSongClasses();
+		initWeekClasses();
 
 		#if FREEPLAY
 		FlxG.switchState(() -> new FreeplayState());
@@ -67,21 +70,34 @@ class InitState extends FlxState
 		#end
 	}
 
-	function initSongClasses()
+	function initWeekClasses()
 	{
-		SongManager.addSongFromClass(new Bopeebo());
-		SongManager.addSongFromClass(new Fresh());
+		var weeks:Map<String, Map<String, SongClass>> = [
+			'tutorial' => ['tutorial' => null,],
+			'week1' => ['bopeebo' => new Bopeebo(), 'fresh' => new Fresh(), 'dadbattle' => null,],
+			'week2' => ['spookeez' => null, 'south' => null, 'monster' => null,],
+			'week3' => ['pico' => null, 'philly' => null, 'blammed' => null,],
+			'week4' => ['satin-panties' => null, 'high' => null, 'milf' => new MILF(),],
+			'week5' => [
+				'cocoa' => null,
+				'eggnog' => null,
+				'winter-horrorland' => new WinterHorrorland(),
+			],
+			'week6' => [
+				'senpai' => new Week6SongClass('senpai'),
+				'roses' => new Week6SongClass('roses'),
+				'thorns' => new Week6SongClass('thorns'),
+			],
+			'week7' => [
+				'ugh' => new Week7SongClass('ugh'),
+				'guns' => new Week7SongClass('guns'),
+				'stress' => new Week7SongClass('stress'),
+			],
+		];
 
-		SongManager.addSongFromClass(new MILF());
-
-		SongManager.addSongFromClass(new WinterHorrorland());
-
-		SongManager.addSongFromClass(new Week6SongClass('senpai'));
-		SongManager.addSongFromClass(new Week6SongClass('roses'));
-		SongManager.addSongFromClass(new Week6SongClass('thorns'));
-
-		SongManager.addSongFromClass(new Week7SongClass('ugh'));
-		SongManager.addSongFromClass(new Week7SongClass('guns'));
-		SongManager.addSongFromClass(new Week7SongClass('stress'));
+		for (weekName => weekSongs in weeks)
+		{
+			WeekManager.addWeekFromClass(new WeekClass(weekName, weekSongs));
+		}
 	}
 }
