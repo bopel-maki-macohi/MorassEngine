@@ -1,4 +1,4 @@
-package songs.week4;
+package songs.classes;
 
 import flixel.FlxG;
 import ui.PreferencesMenu;
