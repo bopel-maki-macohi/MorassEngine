@@ -6,7 +6,7 @@ class Week7SongClass extends SongClass
 	{
 		if (PlayState.isStoryMode && !PlayState.seenCutscene)
 		{
-			PlayState.instance.beginVidCutscene(Paths.file('music/${song.toLowerCase()}Cutscene.mp4'));
+			PlayState.instance.beginVidCutscene(Paths.mp4('${song.toLowerCase()}Cutscene'));
 			return false;
 		}
 

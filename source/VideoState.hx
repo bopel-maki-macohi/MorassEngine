@@ -21,7 +21,7 @@ class VideoState extends MusicBeatState
 			FlxG.sound.music.stop();
 
 		video = new FlxVideo();
-		video.play(Paths.file('music/kickstarterTrailer.mp4'));
+		video.play(Paths.mp4('kickstarterTrailer'));
 		add(video);
 
 		video.finishCallback.add(finishVid);
