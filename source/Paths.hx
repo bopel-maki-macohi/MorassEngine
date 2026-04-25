@@ -85,6 +85,11 @@ class Paths
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
 	}
 
+	inline static public function chart(song:String, formattedSong:String)
+	{
+		return 'songs:assets/songs/${song.toLowerCase()}/${formattedSong.toLowerCase()}.json';
+	}
+
 	inline static public function voices(song:String)
 	{
 		return 'songs:assets/songs/${song.toLowerCase()}/Voices.$SOUND_EXT';
