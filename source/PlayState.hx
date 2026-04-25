@@ -68,7 +68,7 @@ class PlayState extends MusicBeatState
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
 	public static var isStoryMode:Bool = false;
-	public static var storyWeek:Int = 0;
+	public static var storyWeek:String = null;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var deathCounter:Int = 0;
@@ -1787,7 +1787,7 @@ class PlayState extends MusicBeatState
 
 				switch (PlayState.storyWeek)
 				{
-					case 7:
+					case 'week7':
 						FlxG.switchState(() -> new VideoState());
 					default:
 						FlxG.switchState(() -> new StoryMenuState());

@@ -24,9 +24,9 @@ class Highscore
 			setScore(formattedSong, score);
 	}
 
-	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
+	public static function saveWeekScore(week:String, score:Int = 0, ?diff:Int = 0):Void
 	{
-		var formattedSong:String = formatSong('week' + week, diff);
+		var formattedSong:String = formatSong(week, diff);
 
 		if (songScores.exists(formattedSong))
 		{

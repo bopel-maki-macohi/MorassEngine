@@ -64,7 +64,7 @@ class FreeplayState extends MusicBeatState
 		var weekNum:Int = 0;
 		for (week in WeekManager.weekClasses)
 		{
-			addWeek([for (songID => song in week.songs) songID], weekNum, week.freeplayCharacters ?? ['face']);
+			addWeek([for (songID => song in week.songs) songID], weekNum, week.week, week.freeplayCharacters ?? ['face']);
 
 			weekNum++;
 		}
@@ -146,20 +146,20 @@ class FreeplayState extends MusicBeatState
 		super.create();
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, weekStr:String)
 	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter));
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, weekStr));
 	}
 
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
+	public function addWeek(songs:Array<String>, weekNum:Int, weekStr:String, ?songCharacters:Array<String>)
 	{
 		if (songCharacters == null)
-			songCharacters = ['bf'];
+			songCharacters = ['face'];
 
 		var num:Int = 0;
 		for (song in songs)
 		{
-			addSong(song, weekNum, songCharacters[num]);
+			addSong(song, weekNum, songCharacters[num], weekStr);
 
 			if (num + 1 < songCharacters.length - 1)
 				num++;
@@ -179,7 +179,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		lerpScore = CoolUtil.coolLerp(lerpScore, intendedScore, 0.4);
-		bg.color = FlxColor.interpolate(bg.color, coolColors[songs[curSelected].week % coolColors.length], CoolUtil.camLerpShit(0.045));
+		bg.color = FlxColor.interpolate(bg.color, coolColors[songs[curSelected].weekNum % coolColors.length], CoolUtil.camLerpShit(0.045));
 
 		scoreText.text = "PERSONAL BEST:" + Math.round(lerpScore);
 
@@ -215,7 +215,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
 
-			PlayState.storyWeek = songs[curSelected].week;
+			PlayState.storyWeek = songs[curSelected].weekStr;
 			trace('CUR WEEK' + PlayState.storyWeek);
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
@@ -297,13 +297,17 @@ class FreeplayState extends MusicBeatState
 class SongMetadata
 {
 	public var songName:String = "";
-	public var week:Int = 0;
 	public var songCharacter:String = "";
 
-	public function new(song:String, week:Int, songCharacter:String)
+	public var weekNum:Int = 0;
+	public var weekStr:String = "";
+
+	public function new(song:String, weekNum:Int, songCharacter:String, weekStr:String)
 	{
 		this.songName = song;
-		this.week = week;
 		this.songCharacter = songCharacter;
+
+		this.weekNum = weekNum;
+		this.weekStr = weekStr;
 	}
 }
