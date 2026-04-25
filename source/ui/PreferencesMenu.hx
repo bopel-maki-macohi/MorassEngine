@@ -168,7 +168,7 @@ class PreferencesMenu extends ui.OptionsState.Page
 		}
 		else
 		{
-			trace('found preference: ' + preferences.get(prefString));
+			trace('found preference: ' + preferences.get(prefString) + ' : $prefValue');
 		}
 	}
 }
