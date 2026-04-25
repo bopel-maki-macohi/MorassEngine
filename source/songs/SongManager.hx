@@ -2,20 +2,18 @@ package songs;
 
 class SongManager
 {
-	public static var CURRENT_SONGCLASS:SongClass = null;
-
 	public static var songClasses:Map<String, SongClass> = [];
 
 	public static function addSong(song:String, songClass:SongClass)
 	{
-		songClasses.set(song, songClass);
+		songClasses.set(song.toLowerCase(), songClass);
 	}
 
 	public static function getSong(song:String):SongClass
 	{
-		if (!songClasses.exists(song))
+		if (!songClasses.exists(song.toLowerCase()))
 			return null;
 
-		return songClasses.get(song);
+		return songClasses.get(song.toLowerCase());
 	}
 }

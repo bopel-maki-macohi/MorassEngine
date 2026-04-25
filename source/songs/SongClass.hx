@@ -22,4 +22,6 @@ class SongClass
 	{
 		return true;
 	}
+
+	public function onCountdownStep(step:Int) {}
 }

@@ -56,6 +56,15 @@ import Discord.DiscordClient;
 
 class PlayState extends MusicBeatState
 {
+	public static var instance:PlayState;
+
+	override function destroy()
+	{
+		super.destroy();
+
+		instance = null;
+	}
+
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
 	public static var isStoryMode:Bool = false;
@@ -65,44 +74,42 @@ class PlayState extends MusicBeatState
 	public static var deathCounter:Int = 0;
 	public static var practiceMode:Bool = false;
 
-	var halloweenLevel:Bool = false;
+	public var vocals:FlxSound;
+	public var vocalsFinished:Bool = false;
 
-	private var vocals:FlxSound;
-	private var vocalsFinished:Bool = false;
+	public var dad:Character;
+	public var gf:Character;
+	public var boyfriend:Boyfriend;
 
-	private var dad:Character;
-	private var gf:Character;
-	private var boyfriend:Boyfriend;
+	public var notes:FlxTypedGroup<Note>;
+	public var unspawnNotes:Array<Note> = [];
 
-	private var notes:FlxTypedGroup<Note>;
-	private var unspawnNotes:Array<Note> = [];
+	public var strumLine:FlxSprite;
 
-	private var strumLine:FlxSprite;
+	public var camFollow:FlxObject;
 
-	private var camFollow:FlxObject;
+	public static var prevCamFollow:FlxObject;
 
-	private static var prevCamFollow:FlxObject;
+	public var strumLineNotes:FlxTypedGroup<FlxSprite>;
+	public var playerStrums:FlxTypedGroup<FlxSprite>;
 
-	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
-	private var playerStrums:FlxTypedGroup<FlxSprite>;
+	public var camZooming:Bool = false;
+	public var curSong:String = "";
 
-	private var camZooming:Bool = false;
-	private var curSong:String = "";
+	public var gfSpeed:Int = 1;
+	public var health:Float = 1;
+	public var combo:Int = 0;
 
-	private var gfSpeed:Int = 1;
-	private var health:Float = 1;
-	private var combo:Int = 0;
+	public var healthBarBG:FlxSprite;
+	public var healthBar:FlxBar;
 
-	private var healthBarBG:FlxSprite;
-	private var healthBar:FlxBar;
+	public var generatedMusic:Bool = false;
+	public var startingSong:Bool = false;
 
-	private var generatedMusic:Bool = false;
-	private var startingSong:Bool = false;
-
-	private var iconP1:HealthIcon;
-	private var iconP2:HealthIcon;
-	private var camHUD:FlxCamera;
-	private var camGame:FlxCamera;
+	public var iconP1:HealthIcon;
+	public var iconP2:HealthIcon;
+	public var camHUD:FlxCamera;
+	public var camGame:FlxCamera;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 
@@ -167,6 +174,10 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
+		if (instance != null)
+			instance = null;
+		instance = this;
+
 		FlxG.sound.cache(Paths.inst(PlayState.SONG.song));
 		FlxG.sound.cache(Paths.voices(PlayState.SONG.song));
 
@@ -226,7 +237,6 @@ class PlayState extends MusicBeatState
 		{
 			case 'spookeez' | 'monster' | 'south':
 				curStage = "spooky";
-				halloweenLevel = true;
 
 				var hallowTex = Paths.getSparrowAtlas('halloween_bg');
 
@@ -816,11 +826,6 @@ class PlayState extends MusicBeatState
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
-		// if (SONG.song == 'South')
-		// FlxG.camera.alpha = 0.7;
-		// UI_camera.zoom = 1;
-
-		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
 
 		if (isStoryMode && !seenCutscene)
@@ -1035,6 +1040,7 @@ class PlayState extends MusicBeatState
 		startTimer.start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
 			// this just based on beatHit stuff but compact
+
 			if (swagCounter % gfSpeed == 0)
 				gf.dance();
 			if (swagCounter % 2 == 0)
@@ -1046,6 +1052,7 @@ class PlayState extends MusicBeatState
 			}
 			else if (dad.curCharacter == 'spooky' && !dad.animation.curAnim.name.startsWith("sing"))
 				dad.dance();
+
 			if (generatedMusic)
 				notes.sort(sortNotes, FlxSort.DESCENDING);
 
@@ -1067,18 +1074,7 @@ class PlayState extends MusicBeatState
 				readySetGo(introSprPaths[swagCounter - 1]);
 			FlxG.sound.play(Paths.sound(introSndPaths[swagCounter]), 0.6);
 
-			/* switch (swagCounter)
-				{
-					case 0:
-						
-					case 1:
-						
-					case 2:
-						
-					case 3:
-						
-			}*/
-
+			songClass?.onCountdownStep(swagCounter);
 			swagCounter += 1;
 		}, 4);
 	}
@@ -1126,7 +1122,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	private function generateSong():Void
+	public function generateSong():Void
 	{
 		// FlxG.log.add(ChartParser.parse());
 
@@ -1225,7 +1221,7 @@ class PlayState extends MusicBeatState
 
 	// ^ These two sorts also look cute together ^
 
-	private function generateStaticArrows(player:Int):Void
+	public function generateStaticArrows(player:Int):Void
 	{
 		for (i in 0...4)
 		{
@@ -1413,7 +1409,7 @@ class PlayState extends MusicBeatState
 		vocals.play();
 	}
 
-	private var paused:Bool = false;
+	public var paused:Bool = false;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
@@ -1943,7 +1939,7 @@ class PlayState extends MusicBeatState
 	}
 
 	// gives score and pops up rating
-	private function popUpScore(strumtime:Float, daNote:Note):Void
+	public function popUpScore(strumtime:Float, daNote:Note):Void
 	{
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		// boyfriend.playAnim('hey');
@@ -2178,7 +2174,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function keyShit():Void
+	function keyShit():Void
 	{
 		// control arrays, order L D R U
 		var holdArray:Array<Bool> = [controls.NOTE_LEFT, controls.NOTE_DOWN, controls.NOTE_UP, controls.NOTE_RIGHT];
@@ -2556,19 +2552,11 @@ class PlayState extends MusicBeatState
 		// HARDCODING FOR MILF ZOOMS!
 
 		if (PreferencesMenu.getPref('camera-zoom'))
-		{
-			if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && camZooming && FlxG.camera.zoom < 1.35)
-			{
-				FlxG.camera.zoom += 0.015;
-				camHUD.zoom += 0.03;
-			}
-
 			if (camZooming && FlxG.camera.zoom < 1.35 && curBeat % 4 == 0)
 			{
 				FlxG.camera.zoom += 0.015;
 				camHUD.zoom += 0.03;
 			}
-		}
 
 		iconP1.setGraphicSize(Std.int(iconP1.width + 30));
 		iconP2.setGraphicSize(Std.int(iconP2.width + 30));
