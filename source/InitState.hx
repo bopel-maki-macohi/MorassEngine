@@ -74,6 +74,12 @@ class InitState extends FlxState
 
 		SongManager.addSongFromClass(new MILF());
 
+		SongManager.addSongFromClass(new WinterHorrorland());
+
+		SongManager.addSongFromClass(new Week6SongClass('senpai'));
+		SongManager.addSongFromClass(new Week6SongClass('roses'));
+		SongManager.addSongFromClass(new Week6SongClass('thorns'));
+
 		SongManager.addSongFromClass(new Week7SongClass('ugh'));
 		SongManager.addSongFromClass(new Week7SongClass('guns'));
 		SongManager.addSongFromClass(new Week7SongClass('stress'));
