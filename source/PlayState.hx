@@ -1,5 +1,7 @@
 package;
 
+import songs.SongManager;
+import songs.SongClass;
 import Section.SwagSection;
 import Song.SwagSong;
 import flixel.FlxBasic;
@@ -158,6 +160,8 @@ class PlayState extends MusicBeatState
 	var camPos:FlxPoint;
 	var lightFadeShader:BuildingShaders;
 
+	public var songClass:SongClass;
+
 	override public function create()
 	{
 		if (FlxG.sound.music != null)
@@ -182,6 +186,8 @@ class PlayState extends MusicBeatState
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
+
+		songClass = SongManager.getSong(SONG.song);
 
 		foregroundSprites = new FlxTypedGroup<BGSprite>();
 
@@ -857,7 +863,8 @@ class PlayState extends MusicBeatState
 					beginVidCutscene(Paths.file('music/${curSong.toLowerCase()}Cutscene.mp4'));
 
 				default:
-					startCountdown();
+					if (songClass?.onCountdownPreStart() ?? true)
+						startCountdown();
 			}
 		}
 		else
@@ -1803,6 +1810,8 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene)
 			keyShit();
+
+		songClass?.update(elapsed);
 	}
 
 	function killCombo():Void
@@ -2503,6 +2512,9 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 		super.stepHit();
+
+		songClass?.onStepHit(curStep);
+
 		if (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20
 			|| (SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition - Conductor.offset)) > 20))
 		{
@@ -2521,6 +2533,8 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		songClass?.onBeatHit(curBeat);
 
 		if (generatedMusic)
 		{
