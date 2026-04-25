@@ -864,9 +864,7 @@ class PlayState extends MusicBeatState
 					});
 				case 'senpai' | 'roses' | 'thorns':
 					schoolIntro(doof);
-				case 'ugh', 'guns', 'stress':
-					beginVidCutscene(Paths.file('music/${curSong.toLowerCase()}Cutscene.mp4'));
-
+					
 				default:
 					if (songClass?.onCountdownPreStart() ?? true)
 						startCountdown();
@@ -878,7 +876,7 @@ class PlayState extends MusicBeatState
 		super.create();
 	}
 
-	function beginVidCutscene(file:String)
+	public function beginVidCutscene(file:String)
 	{
 		inCutscene = true;
 
@@ -1410,6 +1408,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var paused:Bool = false;
+
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 
