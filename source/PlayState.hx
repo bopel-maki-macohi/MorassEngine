@@ -434,13 +434,7 @@ class PlayState extends MusicBeatState
 
 			var introSprPaths:Array<String> = ["ready", "set", "go"];
 			var altSuffix:String = "";
-
-			if (curStage.startsWith("school"))
-			{
-				altSuffix = '-pixel';
-				introSprPaths = ['weeb/pixelUI/ready-pixel', 'weeb/pixelUI/set-pixel', 'weeb/pixelUI/date-pixel'];
-			}
-
+			
 			var introSndPaths:Array<String> = [
 				"intro3" + altSuffix, "intro2" + altSuffix,
 				"intro1" + altSuffix, "introGo" + altSuffix
