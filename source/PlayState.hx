@@ -79,7 +79,7 @@ class PlayState extends MusicBeatState
 
 	public var dad:Character;
 	public var gf:Character;
-	public var boyfriend:Boyfriend;
+	public var boyfriend:Character;
 
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
@@ -661,7 +661,7 @@ class PlayState extends MusicBeatState
 				dad.y += 180;
 		}
 
-		boyfriend = new Boyfriend(770, 450, SONG.player1);
+		boyfriend = new Character(770, 450, SONG.player1);
 
 		// REPOSITIONING PER STAGE
 		switch (curStage)

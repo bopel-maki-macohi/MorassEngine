@@ -556,9 +556,30 @@ class Character extends FlxSprite
 		}
 	}
 
+	public var startedDeath:Bool = false;
+	
 	override function update(elapsed:Float)
 	{
-		if (!curCharacter.startsWith('bf'))
+		if (isPlayer)
+		{
+			if (animation.curAnim.name.startsWith('sing'))
+			{
+				holdTimer += elapsed;
+			}
+			else
+				holdTimer = 0;
+
+			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
+			{
+				playAnim('idle', true, false, 10);
+			}
+
+			if (animation.curAnim.name == 'firstDeath' && animation.curAnim.finished && startedDeath)
+			{
+				playAnim('deathLoop');
+			}
+		}
+		else
 		{
 			if (animation.curAnim.name.startsWith('sing'))
 			{
@@ -640,8 +661,8 @@ class Character extends FlxSprite
 					}
 
 				case 'pico-speaker':
-				// lol weed
-				// playAnim('shoot' + FlxG.random.int(1, 4), true);
+					// lol weed
+					// playAnim('shoot' + FlxG.random.int(1, 4), true);
 
 				case 'tankman':
 					if (!animation.curAnim.name.endsWith('DOWN-alt'))
