@@ -871,6 +871,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var vid:FlxVideo = new FlxVideo();
+		vid.cameras = [camHUD];
 		vid.finishCallback.add(function()
 		{
 			remove(vid);
