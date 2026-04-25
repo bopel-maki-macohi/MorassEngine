@@ -44,14 +44,15 @@
 	
 	<assets path="assets/songs"    library="songs"/>
 	<assets path="assets/shared"   library="shared"/>
-	<assets path="assets/tutorial" library="tutorial"/>
-	<assets path="assets/week1"    library="week1"/>
-	<assets path="assets/week2"    library="week2"/>
-	<assets path="assets/week3"    library="week3"/>
-	<assets path="assets/week4"    library="week4"/>
-	<assets path="assets/week5"    library="week5"/>
-	<assets path="assets/week6"    library="week6"/>
-	<assets path="assets/week7"    library="week7"/>
+	
+	<assets path="assets/weeks/tutorial" library="tutorial"/>
+	<assets path="assets/weeks/week1"    library="week1"/>
+	<assets path="assets/weeks/week2"    library="week2"/>
+	<assets path="assets/weeks/week3"    library="week3"/>
+	<assets path="assets/weeks/week4"    library="week4"/>
+	<assets path="assets/weeks/week5"    library="week5"/>
+	<assets path="assets/weeks/week6"    library="week6"/>
+	<assets path="assets/weeks/week7"    library="week7"/>
 	
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
 	
@@ -141,6 +142,7 @@
 	<section if="PRELOAD_ALL">
 		<library name="songs"    preload="true" />
 		<library name="shared"   preload="true" />
+		
 		<library name="tutorial" preload="true" />
 		<library name="week1"    preload="true" />
 		<library name="week2"    preload="true" />
@@ -154,6 +156,7 @@
 	<section if="NO_PRELOAD_ALL">
 		<library name="songs"    preload="false" />
 		<library name="shared"   preload="false" />
+
 		<library name="tutorial" preload="false" />
 		<library name="week1"    preload="false" />
 		<library name="week2"    preload="false" />
