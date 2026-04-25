@@ -1862,11 +1862,6 @@ class PlayState extends MusicBeatState
 			if (!dad.animation.curAnim.name.startsWith("sing"))
 				dad.dance();
 		}
-		else if (dad.curCharacter == 'spooky')
-		{
-			if (!dad.animation.curAnim.name.startsWith("sing"))
-				dad.dance();
-		}
 
 		foregroundSprites.forEach(function(spr:BGSprite)
 		{
