@@ -25,19 +25,6 @@ class StoryMenuState extends MusicBeatState
 
 	var curDifficulty:Int = 1;
 
-	var weekNames:Array<String> = [
-		"",
-		"Daddy Dearest",
-		"Spooky Month",
-		"PICO",
-		"MOMMY MUST MURDER",
-		"RED SNOW",
-		"hating simulator ft. moawling",
-		"TANKMAN"
-	];
-
-	var weekData:Array<Array<String>> = [];
-
 	var txtWeekTitle:FlxText;
 
 	var curWeek:Int = 0;
@@ -53,12 +40,21 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 
+	var weekHeaders:Array<String> = [];
+	var weekTitles:Array<String> = [];
+	var weekData:Array<Array<String>> = [];
+
 	override function create()
 	{
 		for (week in WeekManager.weekClasses)
 		{
 			if (!week.freeplayOnly)
+			{
+				weekHeaders.push(week.storymenuHeader);
+				weekTitles.push(week.week);
+
 				weekData.push([for (songID => song in week.songs) songID]);
+			}
 		}
 
 		transIn = FlxTransitionableState.defaultTransIn;
@@ -73,10 +69,10 @@ class StoryMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
-		scoreText.setFormat("VCR OSD Mono", 32);
+		scoreText.setFormat(Paths.font("vcr.ttf"), 32);
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
-		txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
+		txtWeekTitle.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
 
 		var rankText:FlxText = new FlxText(0, 10);
@@ -97,36 +93,32 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
-		trace("Line 70");
-
 		#if discord_rpc
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		for (i in 0...weekData.length)
+		for (i => title in weekTitles)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
+			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, title);
 			weekThing.y += ((weekThing.height + 20) * i);
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
 
 			weekThing.screenCenter(X);
 			weekThing.antialiasing = true;
-			// weekThing.updateHitbox();
 
-			// Needs an offset thingie
-			final unlocked = true;
-			if (!unlocked)
-			{
-				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x);
-				lock.frames = ui_tex;
-				lock.animation.addByPrefix('lock', 'lock');
-				lock.animation.play('lock');
-				lock.ID = i;
-				lock.antialiasing = true;
-				grpLocks.add(lock);
-			}
+			// final unlocked = true;
+			// if (!unlocked)
+			// {
+			// 	var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x);
+			// 	lock.frames = ui_tex;
+			// 	lock.animation.addByPrefix('lock', 'lock');
+			// 	lock.animation.play('lock');
+			// 	lock.ID = i;
+			// 	lock.antialiasing = true;
+			// 	grpLocks.add(lock);
+			// }
 		}
 
 		difficultySelectors = new FlxGroup();
@@ -174,12 +166,12 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		// scoreText.setFormat('VCR OSD Mono', 32);
+		// scoreText.setFormat(Paths.font("vcr.ttf"), 32);
 		lerpScore = CoolUtil.coolLerp(lerpScore, intendedScore, 0.5);
 
 		scoreText.text = "WEEK SCORE:" + Math.round(lerpScore);
 
-		txtWeekTitle.text = weekNames[curWeek].toUpperCase();
+		txtWeekTitle.text = weekHeaders[curWeek].toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
 		// FlxG.watch.addQuick('font', scoreText.font);
